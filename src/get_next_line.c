@@ -5,20 +5,46 @@
 
 char	*get_next_line(int fd)
 {
-	char		*buff;
-	static int	nline = 1;
+	char static		*buff = NULL;
+	int				bytes;
 
-	buff = malloc(sizeof(char) * BUFF_SIZE);
-	if (nline == 1)
-		bytes = read(fd, buff, BUFF_SIZE);
-	if (ft_strchr(buff, '\n') != 0)
+	bytes = 0;
+	if (buff == NULL)
 	{
-
+		buff = malloc(sizeof(char) * BUFF_SIZE);	
+		bytes = read(fd, buff, BUFF_SIZE);
 	}
+	if (ft_strchr(buff, '\n') != 0)
+		return (cut_str(buff, ft_strchr()));
 	else
+	{
 		return (buff);
+	}
 	if (bytes == 0)
+	{
+		free(buff);
+		buff = NULL;
 		return (NULL);
+	}
+}
+
+char *cut_str(char *buff, int npos)
+{
+	int		i;
+	char	*line;
+
+	line = malloc(sizeof(char) * (npos + 1))
+	i = 0;
+	while (i <= npos)
+	{
+		line[i] = buff[i];
+		i++;
+	}
+	npos = 0;
+	while (buff[i] != '\0')
+		buff[npos++] = buff[i++];
+	buff[npos] = '\0';
+	return (line);
 }
 
 int	ft_strchr(const char *s, int c)
