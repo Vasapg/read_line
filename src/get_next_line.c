@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/28 14:28:55 by vsanz-ar          #+#    #+#             */
+/*   Updated: 2023/01/28 14:47:49 by vsanz-ar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include"get_next_line.h"
 #ifndef BUFF_SIZE
 # define BUFF_SIZE 1024
@@ -6,57 +18,60 @@
 char	*get_next_line(int fd)
 {
 	char static		*buff = NULL;
-	int				bytes;
+	char			*line;
+	int				i;
+	int				j;
 
-	bytes = 0;
 	if (buff == NULL)
 	{
-		buff = malloc(sizeof(char) * BUFF_SIZE);	
-		bytes = read(fd, buff, BUFF_SIZE);
+		buff = malloc(sizeof(char) * BUFF_SIZE);
+		i = read(fd, buff, BUFF_SIZE);
+		if (i == 0 || i == -1)
+		{
+			free(buff);
+			buff = NULL;
+			return (NULL);
+		}
 	}
-	if (ft_strchr(buff, '\n') != 0)
-		return (cut_str(buff, ft_strchr()));
-	else
-	{
-		return (buff);
-	}
-	if (bytes == 0)
+	j = ft_strend(buff);
+	line = buff_line(buff, j);
+	i = 0;
+	while (buff[j] != '\0')
+		buff[i++] = buff[j++];
+	buff[i] = '\0';
+	if ((i == 0 || buff[j + 1] == '\0'))
 	{
 		free(buff);
 		buff = NULL;
-		return (NULL);
 	}
+	return (line);
 }
 
-char *cut_str(char *buff, int npos)
+char	*buff_line(char *buff, int npos)
 {
-	int		i;
 	char	*line;
+	int		i;
 
-	line = malloc(sizeof(char) * (npos + 1))
+	line = malloc(sizeof(char) * (npos + 1));
 	i = 0;
 	while (i <= npos)
 	{
 		line[i] = buff[i];
 		i++;
 	}
-	npos = 0;
-	while (buff[i] != '\0')
-		buff[npos++] = buff[i++];
-	buff[npos] = '\0';
 	return (line);
 }
 
-int	ft_strchr(const char *s, int c)
+int	ft_strend(const char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] == (char)c && s[i + 1] != '\0')
+		if (s[i] == '\n')
 			return (i);
 		i++;
 	}
-	return (0);
+	return (i);
 }

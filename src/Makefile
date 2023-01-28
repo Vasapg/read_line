@@ -6,13 +6,13 @@
 #    By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/28 13:51:49 by vsanz-ar          #+#    #+#              #
-#    Updated: 2023/01/26 14:04:02 by vsanz-ar         ###   ########.fr        #
+#    Updated: 2023/01/28 11:23:51 by vsanz-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #----------------------------------------GNL MAKE VARS------------------------------------------------
 NAME = get_next_line.a
-FILES = get_next_line.c get_next_line_utils.c
+FILES = get_next_line.c 
 CFLAGS = -Wall -Wextra -Werror -D BUFF_SIZE=7
 CC = gcc
 RM = rm -f
