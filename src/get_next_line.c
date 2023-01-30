@@ -15,9 +15,10 @@
 # define BUFF_SIZE 1024
 #endif
 
+//TODO BUFFER TAMAÑO 0 INVALIDO
 char	*get_next_line(int fd)
 {
-	char static		*buff = NULL;
+	static char		*buff = NULL;
 	char			*line;
 	int				i;
 	int				j;
@@ -32,17 +33,16 @@ char	*get_next_line(int fd)
 			buff = NULL;
 			return (NULL);
 		}
+		buff[BUFF_SIZE] = '\0';
 	}
 	j = ft_strend(buff);
 	line = buff_line(buff, j);
 	i = 0;
-	while (buff[j] != '\0')
-		buff[i++] = buff[j++];
-	buff[i] = '\0';
-	if ((i == 0 || buff[j + 1] == '\0'))
+	if (j == 0)
 	{
 		free(buff);
 		buff = NULL;
+		return (line);
 	}
 	return (line);
 }
@@ -52,13 +52,16 @@ char	*buff_line(char *buff, int npos)
 	char	*line;
 	int		i;
 
-	line = malloc(sizeof(char) * (npos + 1));
+	line = malloc(sizeof(char) * (npos + 3));
 	i = 0;
-	while (i <= npos)
+	while (i < npos)
 	{
 		line[i] = buff[i];
+		//printf("char: %c en posicion %i\n", line[i], i);
 		i++;
 	}
+	line[i] = '\n';
+	line[i + 1] = '\0';
 	return (line);
 }
 
@@ -67,7 +70,7 @@ int	ft_strend(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i] != '\0' && i < BUFF_SIZE)
 	{
 		if (s[i] == '\n')
 			return (i);
