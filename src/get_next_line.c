@@ -18,51 +18,74 @@
 //TODO BUFFER TAMAÑO 0 INVALIDO
 char	*get_next_line(int fd)
 {
-	static char		*buff = NULL;
-	char			*line;
-	int				i;
-	int				j;
+	static char	*stash = NULL;
+	char		*buff;
+	char		*res;
+	int			bytes;
 
-	if (buff == NULL)
+	if (stash == NULL)
 	{
-		buff = malloc(sizeof(char) * BUFF_SIZE);
-		i = read(fd, buff, BUFF_SIZE);
-		if (i == 0 || i == -1)
-		{
-			free(buff);
-			buff = NULL;
-			return (NULL);
-		}
-		buff[BUFF_SIZE] = '\0';
+		stash = malloc(sizeof(char) * 2048);
+		stash[0] = '\0';
 	}
-	j = ft_strend(buff);
-	line = buff_line(buff, j);
-	i = 0;
-	if (j == 0)
+	buff = malloc(sizeof(char) * BUFF_SIZE);
+	buff[BUFF_SIZE] = '\0';
+	bytes = read(fd, buff, BUFF_SIZE);
+	if (bytes == 0 || bytes == -1)
 	{
 		free(buff);
-		buff = NULL;
-		return (line);
+		free(stash);
+		return (NULL);
+	}
+	stash = fill_stash(stash, buff);
+	while (ft_strend(buff) == -1)
+	{
+		bytes += read(fd, buff, BUFF_SIZE);
+		stash = fill_stash(stash, buff);
+	}
+	free(buff);
+	res = stash_line(stash);
+	stash = stash + ft_strend(stash) + 1;
+	return (res);
+}
+
+char	*fill_stash(char *stash, char *buff)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = ft_strlen(stash);
+	while (buff[j] != '\0')
+		stash[i++] = buff[j++];
+	stash[i] = '\0';
+	return (stash);
+}
+
+char	*stash_line(char *stash)
+{
+	int 	i;
+	char	*line;
+
+	i = ft_strend(stash);
+	line = malloc(sizeof(char) * (i + 2));
+	line[i + 1] = '\0';
+	while (i >= 0)
+	{
+		line[i] = stash[i];
+		i--;
 	}
 	return (line);
 }
 
-char	*buff_line(char *buff, int npos)
+int	ft_strlen(char *s)
 {
-	char	*line;
-	int		i;
+	int	i;
 
-	line = malloc(sizeof(char) * (npos + 3));
 	i = 0;
-	while (i < npos)
-	{
-		line[i] = buff[i];
-		//printf("char: %c en posicion %i\n", line[i], i);
+	while (s[i])
 		i++;
-	}
-	line[i] = '\n';
-	line[i + 1] = '\0';
-	return (line);
+	return (i);
 }
 
 int	ft_strend(const char *s)
@@ -70,11 +93,11 @@ int	ft_strend(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0' && i < BUFF_SIZE)
+	while (s[i] != '\0')
 	{
 		if (s[i] == '\n')
 			return (i);
 		i++;
 	}
-	return (i);
+	return (-1);
 }

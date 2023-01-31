@@ -17,6 +17,8 @@
 # include <stdio.h>
 
 char	*get_next_line(int fd);
-char	*buff_line(char *buff, int npos);
+char	*stash_line(char *buff);
+int		ft_strlen(char *s);
 int		ft_strend(const char *s);
+char	*fill_stash(char *stash, char *buff);
 #endif
