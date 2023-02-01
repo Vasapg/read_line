@@ -13,7 +13,7 @@
 #----------------------------------------GNL MAKE VARS------------------------------------------------
 NAME = get_next_line.a
 FILES = get_next_line.c 
-CFLAGS = -Wall -Wextra -Werror -D BUFF_SIZE=1
+CFLAGS = -Wall -Wextra -Werror -g -D BUFF_SIZE=11
 CC = gcc
 RM = rm -f
 FOBJ = ${FILES:.c=.o}

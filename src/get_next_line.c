@@ -15,7 +15,6 @@
 # define BUFF_SIZE 1024
 #endif
 
-//TODO BUFFER TAMAÑO 0 INVALIDO
 char	*get_next_line(int fd)
 {
 	static char	*stash = NULL;
@@ -34,7 +33,6 @@ char	*get_next_line(int fd)
 	if (bytes == 0 || bytes == -1)
 	{
 		free(buff);
-		free(stash);
 		return (NULL);
 	}
 	stash = fill_stash(stash, buff);
@@ -45,7 +43,7 @@ char	*get_next_line(int fd)
 	}
 	free(buff);
 	res = stash_line(stash);
-	stash = stash + ft_strend(stash) + 1;
+	stash += ft_strend(stash) + 1;
 	return (res);
 }
 
@@ -64,7 +62,7 @@ char	*fill_stash(char *stash, char *buff)
 
 char	*stash_line(char *stash)
 {
-	int 	i;
+	int		i;
 	char	*line;
 
 	i = ft_strend(stash);
