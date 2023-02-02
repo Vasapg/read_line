@@ -20,13 +20,11 @@ int	main(void)
 
 	fd = open("texto.txt", O_RDONLY);
 	str = malloc(sizeof(char) * 10);
-	int i = 0;
 	while (str != NULL)
 	{
 		str = get_next_line(fd);
 		if (str != NULL)
 			printf("%s", str);
-		i++;
 	}
 	free(str);
 	return (1);
