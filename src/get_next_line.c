@@ -18,8 +18,7 @@
 char	*get_next_line(int fd)
 {
 	static char	*stash = NULL;
-	char		*buff;
-	int			bytes;
+	char		*line;
 
 	if (stash == NULL)
 	{
@@ -28,24 +27,34 @@ char	*get_next_line(int fd)
 	}
 	if (ft_strend(stash) == -1)
 	{
-		buff = malloc(sizeof(char) * BUFF_SIZE);
-		while (ft_strend(stash) == -1)
-		{
-			bytes = read(fd, buff, BUFF_SIZE);
-			buff[BUFF_SIZE] = '\0';
-			//printf("stash:\n%s\n", stash);
-			stash = fill_stash(stash, buff);
-			if (ft_strlen(stash) == 0 || bytes == 0 || bytes == -1)
-			{
-				free(buff);
-				return (NULL);
-			}
-		}
-		free(buff);
+		stash = buff_to_stash(stash, fd);
+		if (stash == NULL)
+			return (NULL);
 	}
-	buff = stash_line(stash);
+	line = stash_line(stash);
 	stash += ft_strend(stash) + 1;
-	return (buff);
+	return (line);
+}
+
+char	*buff_to_stash(char *stash, int fd)
+{
+	int		bytes;
+	char	*buff;
+
+	buff = malloc(sizeof(char) * BUFF_SIZE);
+	while (ft_strend(stash) == -1)
+	{
+		bytes = read(fd, buff, BUFF_SIZE);
+		buff[BUFF_SIZE] = '\0';
+		stash = fill_stash(stash, buff);
+		if (ft_strlen(stash) == 0 || bytes == 0 || bytes == -1)
+		{
+			free(buff);
+			return (NULL);
+		}
+	}
+	free(buff);
+	return (stash);
 }
 
 char	*fill_stash(char *stash, char *buff)
@@ -74,6 +83,5 @@ char	*stash_line(char *stash)
 		line[i] = stash[i];
 		i--;
 	}
-	//printf("primer caracter linea:%c\n", line[0]);
 	return (line);
 }
