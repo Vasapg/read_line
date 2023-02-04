@@ -6,7 +6,7 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:28:55 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/04 18:12:52 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:56:33 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 
 	if (stash == NULL)
 	{
-		stash = malloc(sizeof(char) * 200000);
+		stash = malloc(sizeof(char) * 20000);
 		stash[0] = '\0';
 	}
 	if (stash[ft_strend(stash)] == '\0')
@@ -48,19 +48,17 @@ char	*buff_to_stash(char *stash, int fd)
 	char	*buff;
 
 	buff = malloc(sizeof(char) * BUFF_SIZE);
-	bytes = 1;
-	while (stash[ft_strend(stash)] == '\0')
+	bytes = read(fd, buff, BUFF_SIZE);
+	if ((bytes == 0 || bytes == -1) && ft_strlen(stash) == 0)
 	{
-		bytes = read(fd, buff, BUFF_SIZE);
-		buff[BUFF_SIZE] = '\0';
+		free(buff);
+		free(stash);
+		return (NULL);
+	}
+	while (bytes > 0 && stash[ft_strend(stash)] == '\0')
+	{
 		stash = fill_stash(stash, buff);
-		//printf("stash: %s\n bytes: %i\n buff: %s\n", stash, bytes, buff);
-		if (ft_strlen(stash) == 0 && (bytes == 0 || bytes == -1))
-		{
-			free(buff);
-			free(stash);
-			return (NULL);
-		}
+		bytes = read(fd, buff, BUFF_SIZE);
 	}
 	free(buff);
 	return (stash);
