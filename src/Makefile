@@ -6,18 +6,22 @@
 #    By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/28 13:51:49 by vsanz-ar          #+#    #+#              #
-#    Updated: 2023/02/04 17:30:32 by vsanz-ar         ###   ########.fr        #
+#    Updated: 2023/02/09 12:24:50 by vsanz-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#----------------------------------------GNL MAKE VARS------------------------------------------------
+#----------------------------------------GNL MAKE VARS-----------------------------------------------------
 NAME = get_next_line.a
 FILES = get_next_line.c get_next_line_utils.c 
-CFLAGS = -Wall -Wextra -Werror -g -D BUFF_SIZE=1
+CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=1
 CC = gcc
 RM = rm -f
 FOBJ = ${FILES:.c=.o}
-#----------------------------------------GNL MAKE RULES------------------------------------------------
+
+#----------------------------------------GNL MAKE VARS BONUS------------------------------------------------
+BONUS = get_next_line_bonus.c get_next_line_utils_bonus.c
+BOBJ = ${BONUS:.c=.o}
+#----------------------------------------GNL MAKE RULES-----------------------------------------------------
 
 all: ${NAME}
 
@@ -33,4 +37,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean re fclean bonus libft 
+bonus: ${FOBJ} ${BOBJ}
+	ar -rcs ${NAME} ${FILES} ${BOBJ}
+.PHONY: all clean re fclean bonus 

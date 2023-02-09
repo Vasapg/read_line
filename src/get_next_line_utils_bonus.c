@@ -6,11 +6,11 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:28:55 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 12:12:07 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:25:21 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"get_next_line.h"
+#include"get_next_line_bonus.h"
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
 #endif

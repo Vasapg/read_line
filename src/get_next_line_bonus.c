@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 14:31:46 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 10:17:31 by vsanz-ar         ###   ########.fr       */
+/*   Created: 2023/02/04 16:24:22 by vsanz-ar          #+#    #+#             */
+/*   Updated: 2023/02/09 12:25:47 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line.h"
-#include<stdio.h>
-#include<fcntl.h>
 
-int	main(void)
+#include "get_next_line_bonus.h"
+#ifndef BUFF_SIZE
+# define BUFF_SIZE 1024
+#endif
+
+int	ft_strlen(char *s)
 {
-	int		fd;
-	char	*str;
+	int	i;
 
-	fd = open("texto.txt", O_RDONLY);
-	str = malloc(sizeof(char) * 10);
-	while (str != NULL)
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strend(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		str = get_next_line(fd);
-		if (str != NULL)
-			printf("%s", str);
+		if (s[i] == '\n')
+			return (i);
+		i++;
 	}
-	free(str);
-	return (1);
+	return (-1);
 }

@@ -6,11 +6,14 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 16:24:22 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/04 18:56:45 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/02/09 10:58:31 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#ifndef BUFF_SIZE
+# define BUFF_SIZE 1024
+#endif
 
 int	ft_strlen(char *s)
 {
@@ -33,5 +36,5 @@ int	ft_strend(const char *s)
 			return (i);
 		i++;
 	}
-	return (i);
+	return (-1);
 }
