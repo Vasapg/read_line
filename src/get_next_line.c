@@ -6,7 +6,7 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:28:55 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 12:12:07 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:06:42 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 	}
 	line = stash_line(stash);
-	stash = shrunk_stash(stash, ft_strlen(line));
+	stash = shrink_stash(stash, ft_strlen(line));
 	return (line);
 }
 
@@ -61,7 +61,7 @@ char	*buff_to_stash(char *stash, int fd)
 	return (stash);
 }
 
-char	*shrunk_stash(char	*stash, int length)
+char	*shrink_stash(char	*stash, int length)
 {
 	int	i;
 

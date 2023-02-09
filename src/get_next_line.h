@@ -6,7 +6,7 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:29:05 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 11:01:00 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:05:19 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ int		ft_strlen(char *s);
 int		ft_strend(const char *s);
 char	*fill_stash(char *stash, char *buff, int bytes);
 char	*buff_to_stash(char *stash, int fd);
-char	*shrunk_stash(char *stash, int length);
+char	*shrink_stash(char *stash, int length);
 #endif
