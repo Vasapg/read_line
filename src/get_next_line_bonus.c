@@ -6,7 +6,7 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:28:55 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 17:09:03 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/03/19 17:56:53 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,22 @@ char	*get_next_line(int fd)
 {
 	static char	**stash = NULL;
 	char		*line;
+	char		*aux;
 	int			i;
 
+	if (fd < 0)
+		return (NULL);
 	if (stash == NULL)
 	{
-		stash = malloc(sizeof(char *) * 20000);
-		stash[19999] = NULL;
+		stash = malloc(sizeof(char *) * 200);
+		stash[199] = NULL;
 		i = 0;
 		while (stash[i] != NULL)
 			stash[i++] = NULL;
 	}
 	if (stash[fd] == NULL)
 	{
-		stash[fd] = malloc(sizeof(char) * 100000);
+		stash[fd] = malloc(sizeof(char) * 1);
 		stash[fd][0] = '\0';
 	}
 	if (ft_strend(stash[fd]) == -1)
@@ -45,7 +48,9 @@ char	*get_next_line(int fd)
 		}
 	}
 	line = stash_line(stash[fd]);
-	stash[fd] = shrunk_stash(stash[fd], ft_strlen(line));
+	aux = stash[fd];
+	stash[fd] = ft_strjoin(stash[fd] + ft_strlen(line), "\0");
+	free(aux);
 	return (line);
 }
 
@@ -53,6 +58,7 @@ char	*buff_to_stash(char *stash, int fd)
 {
 	char	*buff;
 	int		bytes;
+	char	*aux;
 
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	bytes = read(fd, buff, BUFFER_SIZE);
@@ -63,39 +69,18 @@ char	*buff_to_stash(char *stash, int fd)
 		return (NULL);
 	}
 	buff[bytes] = '\0';
-	stash = fill_stash(stash, buff, bytes);
+	aux = stash;
+	stash = ft_strjoin(stash, buff);
+	free(aux);
 	while (bytes > 0 && ft_strend(stash) == -1)
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		buff[bytes] = '\0';
-		stash = fill_stash(stash, buff, bytes);
+		aux = stash;
+		stash = ft_strjoin(stash, buff);
+		free(aux);	
 	}
 	free(buff);
-	return (stash);
-}
-
-char	*shrunk_stash(char	*stash, int length)
-{
-	int	i;
-
-	i = 0;
-	while (stash[length] != '\0')
-		stash[i++] = stash[length++];
-	stash[i] = '\0';
-	return (stash);
-}
-
-char	*fill_stash(char *stash, char *buff, int bytes)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = ft_strlen(stash);
-	while (buff[j] != '\0')
-		stash[i++] = buff[j++];
-	stash[i] = '\0';
-	bytes = i;
 	return (stash);
 }
 
