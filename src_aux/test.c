@@ -6,7 +6,7 @@
 /*   By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:31:46 by vsanz-ar          #+#    #+#             */
-/*   Updated: 2023/02/09 10:17:31 by vsanz-ar         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:17:31 by vsanz-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -18,7 +18,7 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	fd = open("texto.txt", O_RDONLY);
+	fd = open("prueba", O_RDONLY);
 	str = malloc(sizeof(char) * 10);
 	while (str != NULL)
 	{

@@ -24,5 +24,9 @@ typedef struct s_list
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
 int		ft_strend(const char *s);
+char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
+void	*ft_memmove(void *dst, void *src, size_t len);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstnew(char *content);
 #endif

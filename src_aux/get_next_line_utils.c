@@ -25,6 +25,15 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
+t_list	*ft_lstlast(t_list *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
 int	ft_strend(const char *s)
 {
 	int	i;
@@ -38,6 +47,9 @@ int	ft_strend(const char *s)
 	}
 	return (-1);
 }
+
+
+
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*node;
@@ -69,13 +81,13 @@ char	*ft_strdup(char *s1)
 	int		i;
 
 	i = 0;
-	while (s1[i] != '\0' && s1['\n'])
+	while (s1[i] != '\0')
 		i++;
 	ptr = (char *)malloc((i + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (0);
 	i = 0;
-	while (s1[i] != '\0' && s1['\n'])
+	while (s1[i] != '\0')
 	{
 		ptr[i] = s1[i];
 		i++;
