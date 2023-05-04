@@ -75,23 +75,24 @@ t_list	*ft_lstnew(char *content)
 	return (res);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(char *s1, char end)
 {
 	char	*ptr;
 	int		i;
 
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1[i] != end)
 		i++;
 	ptr = (char *)malloc((i + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (0);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1[i] != end)
 	{
 		ptr[i] = s1[i];
 		i++;
 	}
+	ptr[i++] = end;
 	ptr[i] = '\0';
 	return (ptr);
 }

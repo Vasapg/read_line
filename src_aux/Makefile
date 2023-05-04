@@ -6,14 +6,14 @@
 #    By: vsanz-ar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/28 13:51:49 by vsanz-ar          #+#    #+#              #
-#    Updated: 2023/05/02 16:10:35 by vsanz-ar         ###   ########.fr        #
+#    Updated: 2023/05/04 11:25:18 by vsanz-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #----------------------------------------GNL MAKE VARS-----------------------------------------------------
 NAME = get_next_line.a
 FILES = get_next_line.c get_next_line_utils.c 
-CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=4
+CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=5
 CC = gcc
 RM = rm -f
 FOBJ = ${FILES:.c=.o}
