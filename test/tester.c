@@ -19,11 +19,10 @@ int	main(int argc, char *argv[])
 {
 	int		fd;
 	char	*str;
+	int 	i = 0;
 
 	if (argc < 2)
 		fd = 1;
-	else if (argv[1] == "0")
-		fd = open("no-text?", O_RDONLY);
 	else
 	{
 		fd = open(argv[1], O_RDONLY);
@@ -34,6 +33,7 @@ int	main(int argc, char *argv[])
 		str = get_next_line(fd);
 		if (str != NULL)
 			printf("%s", str);
+		printf("\niter: %i\n " ,i++);
 	}
 	free(str);
 	return (1);
