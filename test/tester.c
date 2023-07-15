@@ -28,12 +28,12 @@ int	main(int argc, char *argv[])
 		fd = open(argv[1], O_RDONLY);
 	}
 	str = malloc(sizeof(char) * 2048);
-	while (str != NULL)
+	while (str != NULL && i < 3)
 	{
 		str = get_next_line(fd);
 		if (str != NULL)
-			printf("%s", str);
-		printf("\niter: %i\n " ,i++);
+			printf("iter %i: %s", i ,str);
+		i++;
 	}
 	free(str);
 	return (1);

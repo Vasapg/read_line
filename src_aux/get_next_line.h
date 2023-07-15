@@ -16,17 +16,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}			t_list;
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
 int		ft_strend(const char *s);
 char	*ft_strdup(char *s1, char end);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memmove(void *dst, void *src, size_t len);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(char *content);
 #endif

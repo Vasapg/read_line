@@ -39,6 +39,12 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+void	free_aux(char *stash, char *buff)
+{
+	free(buff);
+	free(stash);
+}
+
 char	*buff_to_stash(char *stash, int fd)
 {
 	char	*buff;
@@ -49,8 +55,7 @@ char	*buff_to_stash(char *stash, int fd)
 	bytes = read(fd, buff, BUFFER_SIZE);
 	if ((bytes <= 0 && ft_strlen(stash) == 0) || bytes == -1)
 	{
-		free(buff);
-		free(stash);
+		free_aux(stash, buff);
 		return (NULL);
 	}
 	buff[bytes] = '\0';

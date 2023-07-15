@@ -15,30 +15,34 @@
 # define BUFFER_SIZE 1024
 #endif
 
-char	*listLine(t_list **str_list, int length)
+int	ft_strlen(char *s)
 {
-	char *res;
-	int pos;
+	int	i;
 
-	pos = 0;
-	res = malloc(sizeof(char) * (length + 1));
-	res[length] = '\0';
-	while ((*str_list)->next != NULL)
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strend(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		ft_memmove(res + pos, (*str_list)->content, ft_strlen((*str_list)->content));
-		pos += ft_strlen((*str_list)->content);
-		free((*str_list)->content);
-		(*str_list) = (*str_list)->next;
+		if (s[i] == '\n')
+			return (i);
+		i++;
 	}
-	//free(*str_list);
-	return (res);
+	return (-1);
 }
 
 char	*get_next_line(int fd)
 {
-	char	buff[BUFFER_SIZE];
 	static char stash[BUFFER_SIZE];
-	t_list 		**str_list;
+	char		*buff;
 	char		*str_aux;
 	int			pos;
 	int 		length;
@@ -46,34 +50,45 @@ char	*get_next_line(int fd)
 
 	final = 0;
 	length = 0;
-	str_list = malloc(sizeof(struct t_list *));
+	buff = malloc(BUFFER_SIZE);
+	//printf("stash: %s\n", stash);
 	if (stash[0] != '\0')
 	{
+		if ((pos = ft_strend(stash)) != -1)
+		{
+			str_aux = ft_strdup(stash, '\n');
+			ft_memmove(stash, stash + pos + 1, BUFFER_SIZE);
+			stash[ft_strlen(stash)] = '\0';
+			return (str_aux);
+		}
 		str_aux = ft_strdup(stash, '\0');
 		length += ft_strlen(str_aux);
 		ft_lstadd_back(str_list, ft_lstnew(str_aux));
-		stash[0] = '\0';
+		while(final < length)
+			stash[final++] = '\0';
 	}
 	while ((final = read(fd, buff, BUFFER_SIZE)) >= 0)
 	{
-		if ((pos = ft_strend(buff)) != -1)
+		if (final != 0)
+			buff[final] = '\0';
+		//printf("final:-%i-", final);
+		if (((pos = ft_strend(buff)) != -1))
 		{
-			str_aux = ft_strdup(buff, '\n');
-			length += ft_strlen(str_aux);
-			ft_lstadd_back(str_list, ft_lstnew(str_aux));
-			//ft_memmove(buff, buff+pos+1, BUFFER_SIZE);
-			//buff[ft_strlen(buff)] = '\0';
-			ft_memmove(stash, buff+pos+1, BUFFER_SIZE);
-			stash[ft_strlen(stash)] = '\0';
-			return listLine(str_list, length);			
+			if(final != 0 && buff[0] != '\0')
+			{
+				str_aux = ft_strdup(buff, '\n');
+				//printf("buff:-%s-", buff);
+				//printf("str:-%s-", str_aux);
+				length += ft_strlen(str_aux);
+				ft_lstadd_back(str_list, ft_lstnew(str_aux));
+				ft_memmove(stash, buff+pos+1, BUFFER_SIZE);
+				//printf("stash:-%s-", stash);
+				//printf("final:-%i-", final);
+				stash[ft_strlen(stash)] = '\0';
+			}
+			return list_line(str_list, length);			
 		}
-		if (final == 0 && stash[0] != '\0')
-		{
-			str_aux = ft_strdup(buff, '\0');
-			stash[0] = '\0';
-			return (str_aux);
-		}
-		if (final == 0)
+		if (final <= 0)
 			return (NULL);
 		str_aux = ft_strdup(buff, '\0');
 		length += ft_strlen(str_aux);
